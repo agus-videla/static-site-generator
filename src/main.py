@@ -1,7 +1,7 @@
 from textnode import TextNode
-from textnode import InlineText
+from textnode import TextType
 
 def main():
-    print(TextNode("dummy text", InlineText.IMAGE, "http://imgur.com/image"))
+    print(TextNode("dummy text", TextType.IMAGE, "http://imgur.com/image"))
 
 main()
