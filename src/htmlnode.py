@@ -24,3 +24,15 @@ class LeafNode(HTMLNode):
         if self.tag is None:
             return self.value
         return f"<{self.tag}>{self.value}</{self.tag}>"
+
+class ParentNode(HTMLNode):
+    def __init__(self, tag, children, props=None) -> None:
+        super().__init__(tag=tag, children=children, props=props)
+
+    def to_html(self):
+        if self.tag == None:
+            raise ValueError
+        if self.children == None:
+            raise ValueError
+        children_to_html = "".join(list(map(lambda x: x.to_html() , self.children)))
+        return f"<{self.tag}>{children_to_html}</{self.tag}>"
