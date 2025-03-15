@@ -8,12 +8,21 @@ class TextType(Enum):
     LINK = "link"
     IMAGE = "image"
 
+    @property
+    def delimiter(self):
+        if self == TextType.BOLD:
+            return "**"
+        elif self == TextType.ITALIC:
+            return "_"
+        elif self == TextType.CODE:
+            return "`"
+        return None
+
 class TextNode:
-    def __init__(self, text, text_type, alt=None, url=None):
-        self.text = text
-        self.text_type = text_type
-        self.alt = alt
-        self.url = url 
+    def __init__(self, text, text_type, url=None):
+        self.text: str = text
+        self.text_type: TextType = text_type
+        self.url: str|None = url 
 
     def __eq__(self, value) -> bool:
         return (self.text == value.text 
