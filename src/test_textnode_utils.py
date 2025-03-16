@@ -2,7 +2,7 @@ import unittest
 
 from htmlnode import HTMLNode
 from textnode import TextNode, TextType
-from utils import split_nodes_images, split_nodes_links, text_node_to_html_node, split_nodes_delimiter, extract_markdown_links, extract_markdown_images, text_to_textnodes
+from textnode_utils import split_nodes_images, split_nodes_links, text_node_to_html_node, split_nodes_delimiter, extract_markdown_links, extract_markdown_images, text_to_textnodes
 
 class TestUtils(unittest.TestCase):
     def test_image(self):
