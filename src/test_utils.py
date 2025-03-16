@@ -2,7 +2,7 @@ import unittest
 
 from htmlnode import HTMLNode
 from textnode import TextNode, TextType
-from utils import split_nodes_images, split_nodes_links, text_node_to_html_node, split_nodes_delimiter, extract_markdown_links, extract_markdown_images
+from utils import split_nodes_images, split_nodes_links, text_node_to_html_node, split_nodes_delimiter, extract_markdown_links, extract_markdown_images, text_to_textnodes
 
 class TestUtils(unittest.TestCase):
     def test_image(self):
@@ -130,7 +130,6 @@ class TestUtils(unittest.TestCase):
             new_nodes,
         )
 
-
     def test_malformed_link(self):
         node = TextNode("Check out [Boot.dev(https://www.boot.dev)", TextType.NORMAL)
         new_nodes = split_nodes_links([node])
@@ -152,5 +151,23 @@ class TestUtils(unittest.TestCase):
                 TextNode(".", TextType.NORMAL),
             ],
             new_nodes_images,
+        )
+
+    def test_text_to_textnodes(self):
+        text = "This is **text** with an _italic_ word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)"
+        self.assertEqual(
+            [
+                TextNode("This is ", TextType.NORMAL),
+                TextNode("text", TextType.BOLD),
+                TextNode(" with an ", TextType.NORMAL),
+                TextNode("italic", TextType.ITALIC),
+                TextNode(" word and a ", TextType.NORMAL),
+                TextNode("code block", TextType.CODE),
+                TextNode(" and an ", TextType.NORMAL),
+                TextNode("obi wan image", TextType.IMAGE, "https://i.imgur.com/fJRm4Vk.jpeg"),
+                TextNode(" and a ", TextType.NORMAL),
+                TextNode("link", TextType.LINK, "https://boot.dev"),
+            ],
+            text_to_textnodes(text)
         )
 

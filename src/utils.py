@@ -2,6 +2,7 @@ import re
 
 from textnode import TextNode, TextType
 from htmlnode import HTMLNode
+import textnode
 
 def text_node_to_html_node(text_node: TextNode) -> HTMLNode:
     match (text_node.text_type):
@@ -17,6 +18,17 @@ def text_node_to_html_node(text_node: TextNode) -> HTMLNode:
             return HTMLNode(tag="a", value=text_node.text, props={"href":text_node.url})
         case TextType.IMAGE:
             return HTMLNode(tag="img", value=text_node.text, props={"src":text_node.url})
+
+def text_to_textnodes(text):
+    text_nodes = [TextNode(text, TextType.NORMAL)]
+    text_nodes = split_nodes_delimiter(text_nodes, TextType.BOLD)
+    text_nodes = split_nodes_delimiter(text_nodes, TextType.ITALIC)
+    text_nodes = split_nodes_delimiter(text_nodes, TextType.CODE)
+    text_nodes = split_nodes_delimiter(text_nodes, TextType.CODE)
+    text_nodes = split_nodes_images(text_nodes)
+    text_nodes = split_nodes_links(text_nodes)
+    return text_nodes
+
 
 def split_nodes_delimiter(old_nodes: list[TextNode], text_type: TextType):
     new_nodes = []
