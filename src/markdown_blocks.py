@@ -6,6 +6,8 @@ class BlockType(Enum):
     CODE = "code",
     QUOTE = "quote",
     UNORDERED_LIST = "unordered_list",
-    ORDERED_LIST = "ordered_list"
+    ORDERED_LIST = "ordered_list",
+
+    
 
 

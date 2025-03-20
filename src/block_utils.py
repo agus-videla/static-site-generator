@@ -10,13 +10,38 @@ def markdown_to_blocks(markdown: str):
     return result
 
 def block_to_block_type(markdown: str):
-    if(re.match(r"^#{1,7}\s", markdown)):
+    if isHeader(markdown):
         return BlockType.HEADING
-    if(re.match(r"^```[\s\S]+```$", markdown)):
+    lines = markdown.split("\n")
+    if isCode(lines):
         return BlockType.CODE
-    if(re.match(r"", markdown)):
+    if isQuote(lines):
         return BlockType.QUOTE
-    if(re.match(r"^```.+```$", markdown)):
+    if isOrderedList(lines):
         return BlockType.ORDERED_LIST
-    if(re.match(r"^>$", markdown)):
-        return BlockType.CODE
+    if isUnorderedList(lines):
+        return BlockType.UNORDERED_LIST
+
+def isQuote(lines: list[str]):
+    for line in lines:
+        if line[0] != ">":
+            return False
+    return True
+
+def isCode(lines: list[str]):
+    return lines[0] == lines[-1] == "```"
+
+def isHeader(markdown: str):
+    return re.match(r"^#{1,7}\s", markdown)
+
+def isUnorderedList(lines: list[str]):
+    for line in lines:
+        if line[0] != "-":
+            return False
+    return True
+
+def isOrderedList(lines: list[str]):
+    for line in lines:
+        if not re.match(r"\d+\.",line):
+            return False
+    return True
