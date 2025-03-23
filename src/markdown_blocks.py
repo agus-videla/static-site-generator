@@ -8,6 +8,3 @@ class BlockType(Enum):
     UNORDERED_LIST = "unordered_list",
     ORDERED_LIST = "ordered_list",
 
-    
-
-

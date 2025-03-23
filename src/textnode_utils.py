@@ -1,23 +1,22 @@
 import re
 
 from textnode import TextNode, TextType
-from htmlnode import HTMLNode
-import textnode
+from htmlnode import HTMLNode, LeafNode
 
 def text_node_to_html_node(text_node: TextNode) -> HTMLNode:
     match (text_node.text_type):
         case TextType.NORMAL:
-            return HTMLNode(value=text_node.text)
+            return LeafNode(None, value=text_node.text)
         case TextType.BOLD:
-            return HTMLNode(tag="b", value=text_node.text)
+            return LeafNode(tag="b", value=text_node.text)
         case TextType.ITALIC:
-            return HTMLNode(tag="i", value=text_node.text)
+            return LeafNode(tag="i", value=text_node.text)
         case TextType.CODE:
-            return HTMLNode(tag="code", value=text_node.text)
+            return LeafNode(tag="code", value=text_node.text)
         case TextType.LINK:
-            return HTMLNode(tag="a", value=text_node.text, props={"href":text_node.url})
+            return LeafNode(tag="a", value=text_node.text, props={"href":text_node.url})
         case TextType.IMAGE:
-            return HTMLNode(tag="img", value=text_node.text, props={"src":text_node.url})
+            return LeafNode(tag="img", value=text_node.text, props={"src":text_node.url})
 
 def text_to_textnodes(text):
     text_nodes = [TextNode(text, TextType.NORMAL)]
